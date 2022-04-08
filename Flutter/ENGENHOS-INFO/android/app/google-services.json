@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "31962815955",
+    "project_id": "engenhos-info",
+    "storage_bucket": "engenhos-info.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:31962815955:android:2c8fcd3dd1a512b2be6326",
+        "android_client_info": {
+          "package_name": "com.engenhos.info.engenhos_info"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "31962815955-ofl8pbb1jcgo5j544nkj28btfonnuddq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-DM8VOOU13o7hVKEZIwBhWsuhQE_bnq8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "31962815955-ofl8pbb1jcgo5j544nkj28btfonnuddq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
