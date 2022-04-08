@@ -138,7 +138,8 @@ class _ProfileState extends State<Profile> {
                 // crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(left: 20, top: 0, right: 0, bottom: 0),                    child: Column(
+                    padding: const EdgeInsets.only(left: 20, top: 0, right: 0, bottom: 0),                    
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         const Text('PASSWORD',
@@ -283,7 +284,7 @@ class _ProfileState extends State<Profile> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     onPressed: () async {
-                      _auth.signOut();
+                      await _auth.signOut().then((_) => Navigator.pushReplacementNamed(context, '/wrapper'));
                     },
                     color: const Color(0xffFBD732),
                     focusColor: Colors.black,
