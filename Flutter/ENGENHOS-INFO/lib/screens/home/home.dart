@@ -1,5 +1,6 @@
 import 'package:engenhos_info/services/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -108,7 +109,7 @@ class _HomeState extends State<Home> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(40.0),
               ),
-              onPressed: () => {/*TODO: ask camera permission + open native camera app, after send picture to Firebase*/},
+              onPressed: _takePicture,
               color: Colors.black,
               focusColor: Colors.grey[400],
               padding: const EdgeInsets.all(17.0),
@@ -196,5 +197,10 @@ class _HomeState extends State<Home> {
         );
       },
     );
+  }
+
+  Future<void> _takePicture() async {
+    final ImageFile = await ImagePicker.platform.pickImage(source: ImageSource.camera);
+    /* TODO: SEND file to the server/DB */
   }
 }

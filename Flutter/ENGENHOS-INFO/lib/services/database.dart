@@ -1,8 +1,15 @@
+import 'dart:collection';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:core';
+
+import 'package:engenhos_info/models/myuser.dart';
 
 class DatabaseService {
   final String uid;
   DatabaseService({required this.uid});
+
+  DatabaseService.withoutUID() : uid = "";
 
   final CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
 
@@ -25,7 +32,23 @@ class DatabaseService {
     });
   }
 
-  Stream<QuerySnapshot> get users {
-    return usersCollection.snapshots();
+  MyUser? _userDataFromSnapshot(DocumentSnapshot snapshot) {
+    return MyUser(
+        uid: uid,
+        name: snapshot.get('fullName'),
+        phoneNumber: snapshot.get('phoneNumber')
+    );
   }
+
+  Stream<MyUser?> get user {
+    return usersCollection.doc(uid).snapshots()
+        .map(_userDataFromSnapshot);
+  }
+  //
+  // Stream<MyUser> get userData {
+  //   return usersCollection.doc(uid).snapshots()
+  //       .map(_userDataFromSnapshot);
+  // }
+
 }
+

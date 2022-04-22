@@ -1,3 +1,4 @@
+import 'package:engenhos_info/models/myuser.dart';
 import 'package:engenhos_info/shared/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -37,7 +38,7 @@ class _RegisterState extends State<Register> {
           _error = 'Please supply a valid email';
         });
       } else {
-        await DatabaseService(uid: result.uid).updateUserData(_name!, _phoneNumber!, /* location */);
+        await DatabaseService(uid: result.uid).updateUserData(_name!, _phoneNumber!);
       }
     }
   }

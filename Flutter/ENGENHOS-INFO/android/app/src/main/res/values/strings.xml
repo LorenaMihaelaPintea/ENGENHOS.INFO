@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ENGENHOS.INFO</string>
+    <string name="facebook_app_id">363850435624801</string>
+    <string name="fb_login_protocol_scheme">fb363850435624801</string>
+    <string name="facebook_client_token">dba40fbc20a2b787a1c98941958830d3</string>
+</resources>

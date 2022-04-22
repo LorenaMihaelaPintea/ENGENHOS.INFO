@@ -115,7 +115,7 @@ class _SignInState extends State<SignIn> {
                     ),
                     ElevatedButton.icon(
                       onPressed: () async {
-                        await _auth.signInFacebook();
+                        await _auth.signInWithFacebook();
                       },
                       style: ElevatedButton.styleFrom(
                         primary: const Color(0xffFBD732),

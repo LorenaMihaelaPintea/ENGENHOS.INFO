@@ -1,11 +1,11 @@
-// *TODO: import location when it's time
+// import 'package:location/location.dart';
 
 class MyUser {
   final String uid;
-  // final LocationData location;
-  String email;
-  String? name;
-  String? phoneNumber;
+  //final LocationData location;
+  late String? email;
+  late String? name;
+  late String? phoneNumber;
 
-  MyUser({required this.uid, required this.email, this.name, this.phoneNumber,  /*this.location*/});
+  MyUser({ required this.uid, this.email, this.name, this.phoneNumber, /* required this.location */});
 }

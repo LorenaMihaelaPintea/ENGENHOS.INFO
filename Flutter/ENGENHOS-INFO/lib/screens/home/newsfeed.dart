@@ -1,4 +1,6 @@
+import 'package:engenhos_info/screens/home/uploadForm.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../services/auth.dart';
 
@@ -89,7 +91,7 @@ class _NewsFeedState extends State<NewsFeed> {
           ),
         ],
       ),
-      body: const Text('NewsFeed!'),
+      body: UploadForm(),
       bottomNavigationBar: BottomAppBar(
         color: Colors.black,
         elevation: 10.0,
@@ -109,7 +111,7 @@ class _NewsFeedState extends State<NewsFeed> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(40.0),
               ),
-              onPressed: () => {/*TODO: ask camera permission + open native camera app, after send picture to Firebase*/},
+              onPressed: _takePicture,
               color: Colors.black,
               focusColor: Colors.grey[400],
               padding: const EdgeInsets.all(17.0),
@@ -198,5 +200,10 @@ class _NewsFeedState extends State<NewsFeed> {
         );
       },
     );
+  }
+
+  Future<void> _takePicture() async {
+    final ImageFile = await ImagePicker.platform.pickImage(source: ImageSource.camera);
+    /* TODO: SEND file to the server/DB */
   }
 }
