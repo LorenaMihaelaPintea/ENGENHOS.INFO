@@ -21,13 +21,13 @@ class DatabaseService {
   }
 
   Future updateUserName(String name) async {
-    return await usersCollection.doc(uid).set({
+    return await usersCollection.doc(uid).update({
       'fullName': name,
     });
   }
 
   Future updateUserPhoneNumber(String phoneNumber) async {
-    return await usersCollection.doc(uid).set({
+    return await usersCollection.doc(uid).update({
       'phoneNumber': phoneNumber,
     });
   }
@@ -44,11 +44,6 @@ class DatabaseService {
     return usersCollection.doc(uid).snapshots()
         .map(_userDataFromSnapshot);
   }
-  //
-  // Stream<MyUser> get userData {
-  //   return usersCollection.doc(uid).snapshots()
-  //       .map(_userDataFromSnapshot);
-  // }
 
 }
 

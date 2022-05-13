@@ -3,7 +3,6 @@ import 'package:engenhos_info/models/myuser.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
-import 'database.dart';
 
 class AuthService {
 

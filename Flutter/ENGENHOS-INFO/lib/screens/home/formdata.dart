@@ -1,26 +1,23 @@
+import 'package:engenhos_info/screens/home/uploadForm.dart';
 import 'package:flutter/material.dart';
-import 'package:http_parser/http_parser.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:location/location.dart';
-import 'package:provider/provider.dart';
-import '../../models/myuser.dart';
-import '../../services/auth.dart';
-import 'package:http/http.dart' as http;
 
-class Results extends StatefulWidget {
-  const Results({Key? key}) : super(key: key);
+import '../../services/auth.dart';
+
+class FormData extends StatefulWidget {
+  const FormData({Key? key}) : super(key: key);
 
   @override
-  State<Results> createState() => _ResultsState();
+  State<FormData> createState() => _FormDataState();
 }
 
-class _ResultsState extends State<Results> {
+class _FormDataState extends State<FormData> {
 
   final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[300],
       appBar: AppBar(
         //color: Color(0xffFBD732)
         backgroundColor: Colors.black,
@@ -40,10 +37,10 @@ class _ResultsState extends State<Results> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               MaterialButton(
-                textColor: Colors.grey[400],
+                textColor: const Color(0xffFBD732),
                 onPressed: () {
-                  //redirect to form
-                  Navigator.pushReplacementNamed(context, '/formdata');
+                  //redirect to newsfeed
+                  Navigator.pushReplacementNamed(context, '/newsfeed');
                 },
                 child: const Text(
                   "Form",
@@ -59,7 +56,7 @@ class _ResultsState extends State<Results> {
                 ),
               ),
               MaterialButton(
-                textColor: const Color(0xffFBD732),
+                textColor: Colors.grey[400],
                 onPressed: () {
                   //redirect to results
                   Navigator.pushReplacementNamed(context, '/results');
@@ -93,7 +90,7 @@ class _ResultsState extends State<Results> {
           ),
         ],
       ),
-      body: const Text('Results!'),
+      body: const UploadForm(),
       bottomNavigationBar: BottomAppBar(
         color: Colors.black,
         elevation: 10.0,
@@ -109,32 +106,33 @@ class _ResultsState extends State<Results> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            MaterialButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(40.0),
-              ),
-              onPressed: _takepicture,
-              color: Colors.black,
-              focusColor: Colors.grey[400],
-              padding: const EdgeInsets.all(17.0),
-              child: Row(
-                children: <Widget> [
-                  const Icon(
-                    Icons.camera,
-                    color: Color(0xffFBD732),
-                  ),
-                  const SizedBox(width: 15),
-                  Text(
-                    "Camera",
-                    style: TextStyle(
-                      color: Colors.grey[400],
-                      wordSpacing: 2,
-                      fontSize: 16,
-                    ),
-                  )
-                ],
-              ),
-            ),
+            // MaterialButton(
+            //   shape: RoundedRectangleBorder(
+            //     borderRadius: BorderRadius.circular(40.0),
+            //   ),
+            //   onPressed: _takePicture,
+            //   color: Colors.black,
+            //   focusColor: Colors.grey[400],
+            //   padding: const EdgeInsets.all(17.0),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: <Widget> [
+            //       const Icon(
+            //         Icons.camera,
+            //         color: Color(0xffFBD732),
+            //       ),
+            //       const SizedBox(width: 15),
+            //       Text(
+            //         "Camera",
+            //         style: TextStyle(
+            //           color: Colors.grey[400],
+            //           wordSpacing: 2,
+            //           fontSize: 16,
+            //         ),
+            //       )
+            //     ],
+            //   ),
+            // ),
             MaterialButton(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(40.0),
@@ -146,6 +144,7 @@ class _ResultsState extends State<Results> {
               focusColor: Colors.grey[400],
               padding: const EdgeInsets.all(17.0),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget> [
                   const Icon(
                     Icons.logout,
@@ -202,31 +201,6 @@ class _ResultsState extends State<Results> {
         );
       },
     );
-  }
-
-  Future<void> _takepicture() async {
-    final PickedFile? img = await ImagePicker.platform.pickImage(source: ImageSource.camera);
-    MyUser user = Provider.of<MyUser>(context, listen: false);
-    LocationData loc = await Location().getLocation();
-    var url = Uri.http('10.0.2.2:5000', '/image');
-
-    http.MultipartRequest request = http.MultipartRequest('POST', url);
-
-    request.fields['userID'] = user.uid;
-    request.fields['latitude'] = '${loc.latitude}';
-    request.fields['longitude'] = '${loc.longitude}';
-
-    request.files.add(
-      await http.MultipartFile.fromPath(
-        'file',
-        img!.path,
-        contentType: MediaType('file', 'jpg'),
-      ),
-    );
-
-    request.send().then((response) {
-      if (response.statusCode == 200) print("Uploaded!");
-    });
   }
 
 }

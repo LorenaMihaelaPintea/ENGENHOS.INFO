@@ -41,12 +41,19 @@ dependencies:
   google_sign_in: ^4.5.1
   font_awesome_flutter: ^10.1.0
   image_picker: ^0.8.5
-  location: ^4.3.0
+  geolocator: ^8.2.1
+  location: ^4.2.0
   flutter_form_builder: ^7.1.1
   form_builder_image_picker: ^2.0.0
   path: ^1.8.0
   path_provider: ^2.0.9
   flutter_facebook_auth: ^4.3.0
+  http: ^0.13.4
+  flutter_custom_dialog: ^1.2.0
+  http_parser: ^4.0.0
+  url_launcher: ^6.1.0
+  mailto: ^2.0.0
+  intro_slider: ^3.0.4
 
 dev_dependencies:
   flutter_test:
@@ -85,7 +92,15 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
+  fonts:
+    - family: RobotoMono
+      fonts:
+        - asset: fonts/RobotoMono-Regular.ttf
+        - asset: fonts/RobotoMono-Bold.ttf
+    - family: Raleway
+      fonts:
+        - asset: fonts/Raleway-Regular.ttf
+        - asset: fonts/Raleway-Bold.ttf
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

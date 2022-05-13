@@ -1,9 +1,7 @@
 import 'package:engenhos_info/screens/authenticate/authenticate.dart';
 import 'package:engenhos_info/screens/home/home.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../models/myuser.dart';
 
 class Wrapper extends StatelessWidget {

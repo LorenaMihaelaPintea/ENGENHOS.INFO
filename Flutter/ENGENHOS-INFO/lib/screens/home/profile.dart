@@ -1,11 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:engenhos_info/models/myuser.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:engenhos_info/services/auth.dart';
 import 'package:engenhos_info/services/database.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mailto/mailto.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../shared/constants.dart';
 
 
 class Profile extends StatefulWidget {
@@ -18,11 +21,133 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
 
   final AuthService _auth = AuthService();
+  late String _newName;
+  late String _newPhoneNumber;
 
   @override
   Widget build(BuildContext context) {
 
-    MyUser user = Provider.of<MyUser>(context);
+    MyUser user = Provider.of<MyUser>(context, listen: false);
+
+    Future<void> _showNewNameDialog() async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Update your name'),
+            content: SingleChildScrollView(
+              child: Column(
+                children:  <Widget>[
+                  TextFormField(
+                    decoration: textInputDecoration.copyWith(hintText: 'Name'),
+                    validator: (val) => val!.isEmpty ? 'Enter your name' : null,
+                    onChanged: (value) {
+                      setState(() {
+                        _newName = value;
+                        // print(_newName);
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Confirm'),
+                onPressed: () async {
+                  await DatabaseService(uid: user.uid).updateUserName(_newName).then((_) => Navigator.of(context).pop());
+                },
+              ),
+              TextButton(
+                child: const Text('Exit'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    Future<void> _showNewPhoneNumberDialog() async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Update your phone number'),
+            content: SingleChildScrollView(
+              child: Column(
+                children:  <Widget>[
+                  TextFormField(
+                    decoration: textInputDecoration.copyWith(hintText: 'Phone number'),
+                    validator: (val) => val!.isEmpty ? 'Enter your phone number' : null,
+                    onChanged: (value) {
+                      setState(() {
+                        _newPhoneNumber = value;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Confirm'),
+                onPressed: () async {
+                  await DatabaseService(uid: user.uid).updateUserPhoneNumber(_newPhoneNumber).then((_) => Navigator.of(context).pop());
+                },
+              ),
+              TextButton(
+                child: const Text('Exit'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    Future<void> _showNewPasswordDialog() async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Update your password'),
+            content: SingleChildScrollView(
+              child: Column(
+                children:  const <Widget>[
+                  Text('If you confirm you are going to receive an email with the instructions!',
+                  style: TextStyle(
+                    letterSpacing: 0.5,
+                  ),
+                  ),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Confirm'),
+                onPressed: () async {
+                  await FirebaseAuth.instance.sendPasswordResetEmail(email: user.email!).then((_) => Navigator.of(context).pop());
+                },
+              ),
+              TextButton(
+                child: const Text('Exit'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
 
     return StreamBuilder<MyUser?>(
       stream: DatabaseService(uid: user.uid).user,
@@ -33,14 +158,13 @@ class _ProfileState extends State<Profile> {
           appBar: AppBar(
             //color: Color(0xffFBD732)
             backgroundColor: Colors.black,
-            // *TODO: resize somewhere the logo so it can look better
             leading: MaterialButton(
               onPressed: () {
                 Navigator.pushReplacementNamed(context, '/home');
               },
               child: Image.asset(
                 'assets/Logo-BG-70.png',
-                scale: 1.0,
+                scale: 1,
               ),
             ),
             leadingWidth: 100,
@@ -52,11 +176,11 @@ class _ProfileState extends State<Profile> {
                   MaterialButton(
                     textColor: Colors.grey[400],
                     onPressed: () {
-                      //redirect to newsfeed
-                      Navigator.pushReplacementNamed(context, '/newsfeed');
+                      //redirect to form
+                      Navigator.pushReplacementNamed(context, '/formdata');
                     },
                     child: const Text(
-                      "News Feed",
+                      "Form",
                       style: TextStyle(
                         fontSize: 14,
                         letterSpacing: 0.5,
@@ -168,7 +292,7 @@ class _ProfileState extends State<Profile> {
                     ),
                     const SizedBox(width: 125,),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: _showNewPasswordDialog,
                       icon: const FaIcon(
                         FontAwesomeIcons.pencil,
                         color: Color(0xffFBD732),
@@ -207,7 +331,7 @@ class _ProfileState extends State<Profile> {
                     ),
                     const SizedBox(width: 160,),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: _showNewNameDialog,
                       icon: const FaIcon(
                         FontAwesomeIcons.pencil,
                         color: Color(0xffFBD732),
@@ -246,7 +370,7 @@ class _ProfileState extends State<Profile> {
                     ),
                     const SizedBox(width: 75,),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: _showNewPhoneNumberDialog,
                       icon: const FaIcon(
                         FontAwesomeIcons.pencil,
                         color: Color(0xffFBD732),
@@ -263,7 +387,13 @@ class _ProfileState extends State<Profile> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      onPressed: () => {},
+                      onPressed: () async {
+                        final mailtoLink = Mailto(
+                          to: ['engenhosinfo@gmail.com'],
+                        );
+
+                        await launchUrl(Uri.parse(mailtoLink.toString()));
+                      },
                       color: const Color(0xffFBD732),
                       padding: const EdgeInsets.all(15.0),
                       child: Row(
@@ -321,7 +451,9 @@ class _ProfileState extends State<Profile> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    onPressed: () => {},
+                    onPressed: () async => {
+                      await FirebaseAuth.instance.currentUser?.delete().then((_) => Navigator.pushReplacementNamed(context, '/wrapper'))
+                    },
                     color: const Color(0xffFBD732),
                     padding: const EdgeInsets.all(15.0),
                     child: Row(

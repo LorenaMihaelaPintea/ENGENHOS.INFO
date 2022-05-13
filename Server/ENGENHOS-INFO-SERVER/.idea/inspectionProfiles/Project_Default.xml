@@ -1,0 +1,14 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="object.best_score_" />
+          <option value="object.best_params_" />
+          <option value="object.cv_results_" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>

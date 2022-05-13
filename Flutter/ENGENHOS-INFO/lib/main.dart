@@ -1,8 +1,9 @@
 import 'package:engenhos_info/models/myuser.dart';
 import 'package:engenhos_info/screens/home/home.dart';
-import 'package:engenhos_info/screens/home/newsfeed.dart';
+import 'package:engenhos_info/screens/home/formdata.dart';
 import 'package:engenhos_info/screens/home/profile.dart';
 import 'package:engenhos_info/screens/home/results.dart';
+import 'package:engenhos_info/screens/location.dart';
 import 'package:engenhos_info/screens/wrapper.dart';
 import 'package:engenhos_info/services/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -25,14 +26,15 @@ class MyApp extends StatelessWidget {
       initialData: null,
       value: AuthService().user,
       child: MaterialApp(
-          initialRoute: '/wrapper',
+          initialRoute: '/location',
           routes: {
             // '/': (context) => Loading(); -> if I happen to have a loading page
+            '/location': (context) => const Location(),
             '/wrapper': (context) => const Wrapper(),
             '/home': (context) => const Home(),
-            '/newsfeed': (context) => NewsFeed(),
-            '/results': (context) => Results(),
-            '/profile': (context) => Profile(),
+            '/formdata': (context) => const FormData(),
+            '/results': (context) => const Results(),
+            '/profile': (context) => const Profile(),
           },
       ),
     );
