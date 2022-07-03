@@ -1,5 +1,9 @@
+import 'dart:async';
+import 'dart:convert';
+import 'package:engenhos_info/screens/home/results.dart';
 import 'package:engenhos_info/screens/home/slider.dart';
 import 'package:engenhos_info/services/auth.dart';
+import 'package:engenhos_info/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
@@ -19,10 +23,12 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   final AuthService _auth = AuthService();
+  dynamic resultMap = {'result': "Nothing to analyze!", 'imgName':'Logo-PS2.png'};
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return loading ? const Loading() : Scaffold(
       appBar: AppBar(
         //color: Color(0xffFBD732)
         backgroundColor: Colors.black,
@@ -63,8 +69,24 @@ class _HomeState extends State<Home> {
               MaterialButton(
                 textColor: Colors.white,
                 onPressed: () {
-                  //redirect to results
-                  Navigator.pushReplacementNamed(context, '/results');
+                  Navigator.pushReplacementNamed(context, '/results', result: resultMap);
+                  // if (resultMap != null) {
+                  //   //redirect to results
+                  //   Navigator.of(context).pushReplacement(                                                         //new
+                  //       MaterialPageRoute(                                                                       //new
+                  //           settings: const RouteSettings(name: '/results'),                                              //new
+                  //           builder: (context) => Results(results: resultMap)
+                  //       )                                                                                            //new
+                  //   ); }
+                  // else {
+                  //   resultMap = {'imgPath':'nothing here', 'result':"Nothing to show!"};
+                  //   Navigator.of(context).pushReplacement(                                                         //new
+                  //       MaterialPageRoute(                                                                       //new
+                  //           settings: const RouteSettings(name: '/results'),                                              //new
+                  //           builder: (context) => Results(results: resultMap)
+                  //       )                                                                                            //new
+                  //   );
+                  // }
                 },
                 child: const Text(
                   "Results",
@@ -207,6 +229,15 @@ class _HomeState extends State<Home> {
 
   Future<void> _takepicture() async {
     final PickedFile? img = await ImagePicker.platform.pickImage(source: ImageSource.camera);
+    if(img != null) {
+      setState(() {
+        loading = true;
+      });
+    } else {
+      setState(() {
+        loading = false;
+      });
+    }
     MyUser user = Provider.of<MyUser>(context, listen: false);
     LocationData loc = await Location().getLocation();
     var url = Uri.http('10.0.2.2:5000', '/image');
@@ -216,6 +247,7 @@ class _HomeState extends State<Home> {
     request.fields['userID'] = user.uid;
     request.fields['latitude'] = '${loc.latitude}';
     request.fields['longitude'] = '${loc.longitude}';
+    request.fields['imgPath'] = '${img?.path}';
 
     request.files.add(
       await http.MultipartFile.fromPath(
@@ -225,8 +257,33 @@ class _HomeState extends State<Home> {
       ),
     );
 
-    request.send().then((response) {
-      if (response.statusCode == 200) print("Uploaded!");
+    request.send().then((response) async {
+      if (response.statusCode == 200) {
+        setState(() {
+          loading = true;
+        });
+        resultMap = request.fields;
+        http.Response.fromStream(response).then((value) {
+          if(value.statusCode == 200) {
+            print("Uploaded!");
+            resultMap = jsonDecode(value.body);
+            print(jsonDecode(value.body));
+          }
+          // return resultMap;
+        }).then((_) {
+          Navigator.of(context).pushReplacement(                                                         //new
+              MaterialPageRoute(                                                                       //new
+                  settings: const RouteSettings(name: '/results'),                                              //new
+                  builder: (context) => Results(results: resultMap)
+              )                                                                                            //new
+          );
+        });
+        // print(resultMap);
+      } else {
+        setState(() {
+          loading = false;
+        });
+      }
     });
   }
 }

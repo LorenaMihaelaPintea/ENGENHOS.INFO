@@ -13,12 +13,12 @@ import 'package:provider/provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
+  MyApp({Key? key}) : super(key: key);
+  dynamic resultMap = {'result': "Nothing to analyze!", 'imgName':'Logo-PS2.png'};
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
             '/wrapper': (context) => const Wrapper(),
             '/home': (context) => const Home(),
             '/formdata': (context) => const FormData(),
-            '/results': (context) => const Results(),
+            '/results': (context) => Results(results: resultMap,),
             '/profile': (context) => const Profile(),
           },
       ),

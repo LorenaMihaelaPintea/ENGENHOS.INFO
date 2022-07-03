@@ -272,15 +272,28 @@ class _ProfileState extends State<Profile> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          const Text('PASSWORD',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              letterSpacing: 1.5,
-                            ),
-                          ),
-                          const SizedBox(height: 5,),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              // crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                const Text('PASSWORD',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    letterSpacing: 1.5,
+                                  ),
+                                ),
+                                const SizedBox(width: 125,),
+                                IconButton(
+                                  onPressed: _showNewPasswordDialog,
+                                  icon: const FaIcon(
+                                    FontAwesomeIcons.pencil,
+                                    color: Color(0xffFBD732),
+                                    size: 20,
+                                  ),
+                                ),
+                              ]),
                           Text('**********',
                             style: TextStyle(
                                 color: Colors.grey[600],
@@ -290,18 +303,9 @@ class _ProfileState extends State<Profile> {
                         ],
                       ),
                     ),
-                    const SizedBox(width: 125,),
-                    IconButton(
-                      onPressed: _showNewPasswordDialog,
-                      icon: const FaIcon(
-                        FontAwesomeIcons.pencil,
-                        color: Color(0xffFBD732),
-                        size: 20,
-                      ),
-                    ),
                   ],
                 ),
-                const SizedBox(height: 30,),
+                const SizedBox(height: 15,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   // crossAxisAlignment: CrossAxisAlignment.start,
@@ -311,16 +315,30 @@ class _ProfileState extends State<Profile> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          const Text('NAME',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              letterSpacing: 1.5,
-                            ),
-                          ),
-                          const SizedBox(height: 5,),
-                          Text('${userData?.name}',
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              // crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                const Text('NAME',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    letterSpacing: 1.5,
+                                  ),
+                                ),
+                                const SizedBox(width: 175,),
+                                IconButton(
+                                  onPressed: _showNewNameDialog,
+                                  icon: const FaIcon(
+                                    FontAwesomeIcons.pencil,
+                                    color: Color(0xffFBD732),
+                                    size: 20,
+                                  ),
+                                ),
+                              ]),
+                          // const SizedBox(height: 5,),
+                          Text('${(userData?.name != null) ? userData?.name : ''}',
                             style: TextStyle(
                                 color: Colors.grey[600],
                                 fontWeight: FontWeight.bold,
@@ -329,18 +347,9 @@ class _ProfileState extends State<Profile> {
                         ],
                       ),
                     ),
-                    const SizedBox(width: 160,),
-                    IconButton(
-                      onPressed: _showNewNameDialog,
-                      icon: const FaIcon(
-                        FontAwesomeIcons.pencil,
-                        color: Color(0xffFBD732),
-                        size: 20,
-                      ),
-                    ),
                   ],
                 ),
-                const SizedBox(height: 30,),
+                const SizedBox(height: 15,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   // crossAxisAlignment: CrossAxisAlignment.start,
@@ -350,16 +359,29 @@ class _ProfileState extends State<Profile> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          const Text('PHONE NUMBER',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              letterSpacing: 1.5,
-                            ),
-                          ),
-                          const SizedBox(height: 5,),
-                          Text('${userData?.phoneNumber}',
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              // crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                const Text('PHONE NUMBER',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    letterSpacing: 1.5,
+                                  ),
+                                ),
+                                const SizedBox(width: 75,),
+                                IconButton(
+                                  onPressed: _showNewPhoneNumberDialog,
+                                  icon: const FaIcon(
+                                    FontAwesomeIcons.pencil,
+                                    color: Color(0xffFBD732),
+                                    size: 20,
+                                  ),
+                                ),
+                              ]),
+                          Text('${(userData?.phoneNumber != null) ? userData?.phoneNumber : ''}',
                             style: TextStyle(
                                 color: Colors.grey[600],
                                 fontWeight: FontWeight.bold,
@@ -368,15 +390,7 @@ class _ProfileState extends State<Profile> {
                         ],
                       ),
                     ),
-                    const SizedBox(width: 75,),
-                    IconButton(
-                      onPressed: _showNewPhoneNumberDialog,
-                      icon: const FaIcon(
-                        FontAwesomeIcons.pencil,
-                        color: Color(0xffFBD732),
-                        size: 20,
-                      ),
-                    ),
+
                   ],
                 ),
                 const SizedBox(height: 70,),

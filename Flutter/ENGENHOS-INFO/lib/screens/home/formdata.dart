@@ -13,6 +13,7 @@ class FormData extends StatefulWidget {
 class _FormDataState extends State<FormData> {
 
   final AuthService _auth = AuthService();
+  dynamic resultMap = {'result': "Nothing to analyze!", 'imgName':'Logo-PS2.png'};
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +40,8 @@ class _FormDataState extends State<FormData> {
               MaterialButton(
                 textColor: const Color(0xffFBD732),
                 onPressed: () {
-                  //redirect to newsfeed
-                  Navigator.pushReplacementNamed(context, '/newsfeed');
+                  //redirect to form
+                  Navigator.pushReplacementNamed(context, '/formdata', result: resultMap);
                 },
                 child: const Text(
                   "Form",

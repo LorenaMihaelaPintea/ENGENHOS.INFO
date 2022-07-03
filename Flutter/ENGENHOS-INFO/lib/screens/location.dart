@@ -74,10 +74,6 @@ class _LocationState extends State<Location> {
   @override
   Widget build(BuildContext context) {
 
-    /*
-    print(_locationPermission);
-    print(_isEnabled);
-    */
     if(_locationPermission == null || _isEnabled == null) {
       _checkLoc().then((_) => {});
     }
@@ -109,7 +105,8 @@ class _LocationState extends State<Location> {
                     onPressed: () {
                       location.Location.instance.requestService().then((value) {
                         if(!value) {
-                          Navigator.pushReplacementNamed(context, '/location');
+                          return const Location();
+                          // Navigator.pushReplacementNamed(context, '/location');
                         } else {
                           return const Wrapper();/*Navigator.pushReplacementNamed(context, '/wrapper');*/
                         }
@@ -127,7 +124,8 @@ class _LocationState extends State<Location> {
                         if(value) {
                           return const Wrapper();/*Navigator.pushReplacementNamed(context, '/wrapper');*/
                         } else {
-                          Navigator.pushReplacementNamed(context, 'location');
+                          return const Location();
+                          // Navigator.pushReplacementNamed(context, '/location');
                         }
                       });
                     },
@@ -154,7 +152,7 @@ class _LocationState extends State<Location> {
             color: Color(0xffFBD732),
             fontSize: 18.0,
             fontWeight: FontWeight.w500,),
-          content: const Text("In order to use our app you must enable the location from Settings!"),
+          content: const Text("In order to use our app you must  enable the location from Settings!"),
           contentTextStyle: const TextStyle(
             color: Colors.white,
             fontSize: 15.0,

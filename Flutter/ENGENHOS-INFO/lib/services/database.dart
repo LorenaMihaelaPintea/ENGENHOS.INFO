@@ -12,6 +12,7 @@ class DatabaseService {
   DatabaseService.withoutUID() : uid = "";
 
   final CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
+  // final CollectionReference objectsCollection = FirebaseFirestore.instance.collection('objectsFromUsers');
 
   Future updateUserData(String name, String phoneNumber) async {
     return await usersCollection.doc(uid).set({
@@ -44,6 +45,21 @@ class DatabaseService {
     return usersCollection.doc(uid).snapshots()
         .map(_userDataFromSnapshot);
   }
+
+  // Result? _resultsFromSnapshot(DocumentSnapshot snapshot) {
+  //   return Result(
+  //       uid: snapshot.get('userID'),
+  //       latitude: snapshot.get('latitude'),
+  //       longitude: snapshot.get('longitude'),
+  //       imgName: snapshot.get('imgName'),
+  //       result: snapshot.get('result')
+  //   );
+  // }
+  //
+  // Stream<Result?> get result {
+  //   return objectsCollection.doc().snapshots()
+  //       .map(_resultsFromSnapshot);
+  // }
 
 }
 

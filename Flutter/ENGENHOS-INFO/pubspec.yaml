@@ -43,7 +43,7 @@ dependencies:
   image_picker: ^0.8.5
   geolocator: ^8.2.1
   location: ^4.2.0
-  flutter_form_builder: ^7.1.1
+  flutter_form_builder: 7.1.1
   form_builder_image_picker: ^2.0.0
   path: ^1.8.0
   path_provider: ^2.0.9
@@ -54,6 +54,8 @@ dependencies:
   url_launcher: ^6.1.0
   mailto: ^2.0.0
   intro_slider: ^3.0.4
+  firebase_storage: ^10.2.18
+  flutter_spinkit: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -80,7 +82,6 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
-
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

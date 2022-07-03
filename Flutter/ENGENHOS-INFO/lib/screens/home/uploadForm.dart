@@ -1,4 +1,7 @@
+import 'dart:convert';
 import 'dart:io';
+import 'package:engenhos_info/screens/home/results.dart';
+import 'package:engenhos_info/shared/loading.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:flutter/material.dart';
@@ -33,17 +36,17 @@ class UploadForm extends StatefulWidget {
 
 class _UploadFormState extends State<UploadForm> {
   final _formKey = GlobalKey<FormBuilderState>();
-
+  dynamic resultMap = {'result': "Nothing to analyze!", 'imgName':'Logo-PS2.png'};
   late String _weight;
   late String _height;
   late String _width;
   late File _imgPath;
   late ApiImage image;
-
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return loading ? const Loading() : SingleChildScrollView(
       child: FormBuilder(
         key: _formKey,
         child: Column(
@@ -101,6 +104,9 @@ class _UploadFormState extends State<UploadForm> {
                 ),
                 onPressed: () async {
                   if (_formKey.currentState?.saveAndValidate() == true) {
+                    setState(() {
+                      loading = true;
+                    });
                     // ApiImage(width: _width , height: _height , weight: _width ,
                     //     imagePath: _formKey.currentState?.value.map.values. )
                     _formKey.currentState?.value.forEach(
@@ -130,8 +136,30 @@ class _UploadFormState extends State<UploadForm> {
                       ),
                     );
 
-                    request.send().then((response) {
-                      if (response.statusCode == 200) print("Uploaded!");
+                    request.send().then((response) async {
+                      if (response.statusCode == 200) {
+                        resultMap = request.fields;
+                        http.Response.fromStream(response).then((value) {
+                          if(value.statusCode == 200) {
+                            print("Uploaded!");
+                            resultMap = jsonDecode(value.body);
+                            print(jsonDecode(value.body));
+                          }
+                          // return resultMap;
+                        }).then((_)  {
+                          Navigator.of(context).pushReplacement(                                                         //new
+                              MaterialPageRoute(                                                                       //new
+                                  settings: const RouteSettings(name: '/results'),                                              //new
+                                  builder: (context) => Results(results: resultMap)
+                              )                                                                                            //new
+                          );
+                        });
+                        // print(resultMap);
+                      }
+                    });
+                  } else {
+                    setState(() {
+                      loading = false;
                     });
                   }
                 },
